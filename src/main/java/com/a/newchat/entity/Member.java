@@ -18,16 +18,25 @@ import java.time.LocalDate;
 public class Member {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_id") @Id
+    @Column(name = "member_id")
+    @Id
     Long id;
 
     String email;
     String nickName;
     String name;
     String password;
-
-    @Enumerated(EnumType.STRING) Gender gender;
+    @Enumerated(EnumType.STRING)
+    Gender gender;
     String phoneNumber;
     LocalDate birthDay;
     String role;
+
+    public void updatePassword(String password, String confirmedPassword, PasswordEncoder passwordEncoder) {
+        if(!password.equals(confirmedPassword)) {
+            throw new IllegalArgumentException("패스워드가 일치하지 않습니다.");
+        }
+        this.password = passwordEncoder.encode(password);
+    }
 }
+

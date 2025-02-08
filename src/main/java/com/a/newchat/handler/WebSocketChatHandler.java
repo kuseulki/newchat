@@ -16,6 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class WebSocketChatHandler extends TextWebSocketHandler {
 
     final Map<String, WebSocketSession> webSocketSessionMap = new ConcurrentHashMap<>();
+
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         log.info("{} connected", session.getId());
@@ -25,6 +26,7 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
         log.info("{} sent {}", session.getId(), message.getPayload());
+
         this.webSocketSessionMap.values().forEach(
                 webSocketSession -> {
                     try {

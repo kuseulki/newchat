@@ -21,7 +21,6 @@ public class ChatController {
 
     private final ChatService chatService;
 
-    // 채팅방 생성
     @PostMapping
     public ChatroomDto createChatroom(@AuthenticationPrincipal CustomOAuth2User user, @RequestParam String title) {
         Chatroom chatroom = chatService.createChatroom(user.getMember(), title);
@@ -29,19 +28,16 @@ public class ChatController {
         return ChatroomDto.from(chatroom);
     }
 
-    // 채팅방 참여
     @PostMapping("/{chatroomId}")
     public Boolean joinChatroom(@AuthenticationPrincipal CustomOAuth2User user, @PathVariable Long chatroomId, @RequestParam(required = false) Long currentChatroomId) {
-        return chatService.joinChatroom(user.getMember(), chatroomId);
+        return chatService.joinChatroom(user.getMember(), chatroomId, currentChatroomId);
     }
 
-    // 채팅방 나가기
     @DeleteMapping("/{chatroomId}")
     public Boolean leaveChatroom(@AuthenticationPrincipal CustomOAuth2User user, @PathVariable Long chatroomId) {
         return chatService.leaveChatroom(user.getMember(), chatroomId);
     }
 
-    // 채팅방 목록
     @GetMapping
     public List<ChatroomDto> getChatroomList(@AuthenticationPrincipal CustomOAuth2User user) {
         List<Chatroom> chatroomList = chatService.getChatroomList(user.getMember());

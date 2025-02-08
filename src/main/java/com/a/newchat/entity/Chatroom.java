@@ -19,15 +19,20 @@ public class Chatroom {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chatroom_id")
-    Long id;
+    private Long id;
 
-    String title;
+    private String title;
 
-    // 현재 채팅방에 참여중인 사용자 정보
     @OneToMany(mappedBy = "chatroom")
-    Set<MemberChatroomMapping> memberChatroomMappingSet;
+    private Set<MemberChatroomMapping> memberChatroomMappingSet;
 
-    LocalDateTime createdAt;
+    private LocalDateTime createdAt;
+
+    @Transient Boolean hasNewMessage;
+
+    public void setHasNewMessage(Boolean hasNewMessage){
+        this.hasNewMessage = hasNewMessage;
+    }
 
     // 채팅방에 Member 추가
     public MemberChatroomMapping addMember(Member member){
@@ -41,9 +46,6 @@ public class Chatroom {
                 .build();
 
         this.memberChatroomMappingSet.add(memberChatroomMapping);
-
         return memberChatroomMapping;
-
     }
-
 }
